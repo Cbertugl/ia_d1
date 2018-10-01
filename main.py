@@ -20,10 +20,14 @@ class envThread(threading.Thread):
         self.env = epy.Environment()
 
     def run(self):
+        for i in range(15):
+            self.env.gen()
+            #On initialise de la poussière au démarage
         while(1):
             self.env.gen()
             time.sleep(1)
             self.env.display()
+            #chaque seconde on génère ou pas aléatoirement soit de la poussière, soit un bijou, soit les deux sur une case, et on affiche l'état du manoir
 
 athread = agentThread()
 ethread = envThread()

@@ -9,36 +9,35 @@ class Environment:
         
     def gen(self):
         
-        randomint = random.randint(0,10)
+        randomint = random.randint(1,10)
         
         if randomint < 6:
             pass #ne rien faire
             
         elif randomint <10:
-            self.gendust
+            self.gendust()
             
         else:
-           self.genjewel 
+            self.genjewel() 
         
     def gendust(self):
         
-        x = random.randint(0,10)
-        y = random.randint(0,10)
+        x = random.randint(0,9)
+        y = random.randint(0,9)
             
         if self.hmap[x][y] == 3:
             pass #ne rien faire
                 
         elif self.hmap[x][y] == 2:
             self.hmap[x][y] = 3
-        
         else:
             self.hmap[x][y] = 1
         
         
     def genjewel(self):
         
-        x = random.randint(0,10)
-        y = random.randint(0,10)
+        x = random.randint(0,9)
+        y = random.randint(0,9)
         
         if self.hmap[x][y] == 3:
             pass #ne rien faire
