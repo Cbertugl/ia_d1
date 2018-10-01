@@ -1,4 +1,3 @@
-
 class Agent:
     
     def __init__(self,x,y):
@@ -12,13 +11,13 @@ class Agent:
 
     def aspire(self,e): #aspire le contenu de la piece dans le sac a poussiere
         
-        if e.hmap[self.posx][self.posy] = 1:
+        if e.hmap[self.posx][self.posy] == 1:
             self.dbag_dirt = self.dbag_dirt + 1
         
-        elif e.hmap[self.posx][self.posy] = 2:
+        elif e.hmap[self.posx][self.posy] == 2:
             self.dbag_jewel = self.dbag_jewel + 1
         
-        elif e.hmap[self.posx][self.posy] =3:
+        elif e.hmap[self.posx][self.posy] == 3:
             self.dbag_dirt = self.dbag_dirt + 1
             self.dbag_jewel = self.dbag_jewel + 1
         
@@ -28,7 +27,7 @@ class Agent:
         
     def grab(self,e): #ramasse le contenu de la piece dans le sac a bijou
 
-        if e.hmap[self.posx][self.posy] =2 || e.hmap[self.posx][self.posy] =3:
+        if e.hmap[self.posx][self.posy] == 2 or e.hmap[self.posx][self.posy] == 3:
             self.jbag = self.jbag + 1
         #todo: mettre a jour l'etat de la piece
             
@@ -37,16 +36,16 @@ class Agent:
         
     def move(self,direction,e): #se deplace dans la direction voulue
         
-        if direction = up && self.posy < len(e.y):
+        if direction == up and self.posy < len(e.y):
             self.posy = self.posy + 1
             
-        elif direction = down && self.posy > 0:
+        elif direction == down and self.posy > 0:
             self.posy = self.posy - 1
         
-        elif direction = left && self.posx > 0:
+        elif direction == left and self.posx > 0:
             self.posy = self.posx + 1
         
-        elif direction = right && self.posx < len(e.x):
+        elif direction == right and self.posx < len(e.x):
             self.posy = self.posx - 1
             
         else:
@@ -56,10 +55,12 @@ class Agent:
         
         
 class Captor:
-    #todo
+    def __init__(self):
+        print("todo")
     
 class Effector:
-    #todo
+    def __init__(self):
+        print("todo")
     
     
 
