@@ -4,7 +4,7 @@ import constants
 class Environment:
     
     def __init__(self,size):
-        self.x, self.y = size, size; #cree un tableau carré d'une taille fixée
+        self.x, self.y = size, size #cree un tableau carré d'une taille fixée
         self.hmap = [[Room(i+1,j+1) for i in range(size)] for j in range(size)]
         #for i in range(size): #on initialise les instances des pièces
         #    for j in range(size):
