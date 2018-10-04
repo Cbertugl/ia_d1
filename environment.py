@@ -73,8 +73,16 @@ class Environment:
     def display(self):
         
         for i in range(self.x):
+            line = ""
             for j in range(self.y):
-                print("Ligne ", i+1, "; Colonne ", j+1, "; Value ", self.hmap[i][j].value, ";")
+                # print("Ligne ", i+1, "; Colonne ", j+1, "; Value ", self.hmap[i][j].value, ";")
+                if(self.hmap[i][j].value == constants.NOTHING): line += "-"
+                elif(self.hmap[i][j].value == constants.JEWEL): line += "J"
+                elif(self.hmap[i][j].value == constants.DUST): line += "D"
+                elif(self.hmap[i][j].value == constants.DUST_AND_JEWEL): line += "B" # B pour both
+                line += " "
+            print(line)
+        print("")
 
 class Room:
     def __init__(self,posx,posy):
@@ -82,7 +90,7 @@ class Room:
         self.y=posy
         self.nb_neighbors = 0
         self.neighbors = []
-        self.value = 0 #on considere 0 = rien, 1 = poussiere, 2 = bijou, 3 = poussiere et bijou
+        self.value = constants.NOTHING #on considere 0 = rien, 1 = poussiere, 2 = bijou, 3 = poussiere et bijou
         
     def set_neighbors(self,neighbors,nb_neighbors):
         self.nb_neighbors=nb_neighbors
