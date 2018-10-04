@@ -4,6 +4,7 @@ import threading
 import time
 import environment as epy
 import agent as apy
+import search as sc
 
 
 class agentThread(threading.Thread):
