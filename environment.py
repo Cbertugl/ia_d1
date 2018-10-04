@@ -4,26 +4,28 @@ class Environment:
     
     def __init__(self,size):
         self.x, self.y = size, size; #cree un tableau carré d'une taille fixée
-        for i in range(size): #on initialise les instances des pièces
-            for j in range(size):
-                self.hmap[i][j] = Room(i+1,j+1) #note: les pièces vont de 1 à size, le tableau hmap de 0 à size-1
+        self.hmap = [[Room(i+1,j+1) for i in range(size)] for j in range(size)]
+        #for i in range(size): #on initialise les instances des pièces
+        #    for j in range(size):
+        #        self.hmap[i][j] = Room(i+1,j+1) #note: les pièces vont de 1 à size, le tableau hmap de 0 à size-1
         for i in range(size): #on initialise les voisins des pièces
             for j in range(size):
                 nb_neighbors = 0
+                neighbors = []
                 if i > 0:
                     if j > 0:
                         neighbors.append(self.hmap[i-1][j-1])
-                        nb_neighbors++
+                        nb_neighbors = nb_neighbors + 1
                     if j < size-1:
                         neighbors.append(self.hmap[i-1][j+1])
-                        nb_neighbors++
+                        nb_neighbors = nb_neighbors + 1
                 if i < size-1:
                     if j > 0:
                         neighbors.append(self.hmap[i+1][j-1])
-                        nb_neighbors++
+                        nb_neighbors = nb_neighbors + 1
                     if j < size-1:
                         neighbors.append(self.hmap[i+1][j+1])
-                        nb_neighbors++
+                        nb_neighbors = nb_neighbors + 1
                 self.hmap[i][j].set_neighbors(neighbors,nb_neighbors)
         
     def gen(self):
@@ -81,9 +83,10 @@ class Room:
         self.neighbors = []
         self.value = 0 #on considere 0 = rien, 1 = poussiere, 2 = bijou, 3 = poussiere et bijou
         
-    def set_neighbors(neighbors,nb_neighbors)
+    def set_neighbors(self,neighbors,nb_neighbors):
         self.nb_neighbors=nb_neighbors
-        self.neighbors[neighbors[nb.neighbors-1] for i in range(nb_neighbors)]
+        for i in range(nb_neighbors):
+            self.neighbors.append(neighbors[nb_neighbors-1])
         
         
         

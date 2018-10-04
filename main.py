@@ -17,7 +17,7 @@ class agentThread(threading.Thread):
 class envThread(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
-        self.env = epy.Environment()
+        self.env = epy.Environment(10)
 
     def run(self):
         for i in range(15):
