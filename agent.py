@@ -1,3 +1,5 @@
+import constants
+
 class Agent:
     
     def __init__(self,x,y):
@@ -11,13 +13,13 @@ class Agent:
 
     def aspire(self,e): #aspire le contenu de la piece dans le sac a poussiere
         
-        if e.hmap[self.posx][self.posy] == 1:
+        if e.hmap[self.posx][self.posy] == constants.DUST:
             self.dbag_dirt = self.dbag_dirt + 1
         
-        elif e.hmap[self.posx][self.posy] == 2:
+        elif e.hmap[self.posx][self.posy] == constants.JEWEL:
             self.dbag_jewel = self.dbag_jewel + 1
         
-        elif e.hmap[self.posx][self.posy] == 3:
+        elif e.hmap[self.posx][self.posy] == constants.DUST_AND_JEWEL:
             self.dbag_dirt = self.dbag_dirt + 1
             self.dbag_jewel = self.dbag_jewel + 1
         

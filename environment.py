@@ -1,4 +1,5 @@
 import random
+import constants
 
 class Environment:
     
@@ -46,13 +47,13 @@ class Environment:
         x = random.randint(0,9)
         y = random.randint(0,9)
             
-        if self.hmap[x][y].value == 3:
+        if self.hmap[x][y].value == constants.DUST_AND_JEWEL:
             pass #ne rien faire
                 
-        elif self.hmap[x][y].value == 2:
-            self.hmap[x][y].value = 3
+        elif self.hmap[x][y].value == constants.JEWEL:
+            self.hmap[x][y].value = constants.DUST_AND_JEWEL
         else:
-            self.hmap[x][y].value = 1
+            self.hmap[x][y].value = constants.DUST
         
         
     def genjewel(self):
@@ -60,14 +61,14 @@ class Environment:
         x = random.randint(0,9)
         y = random.randint(0,9)
         
-        if self.hmap[x][y].value == 3:
+        if self.hmap[x][y].value == constants.DUST_AND_JEWEL:
             pass #ne rien faire
             
-        elif self.hmap[x][y].value == 1:
-            self.hmap[x][y].value = 3
+        elif self.hmap[x][y].value == constants.DUST:
+            self.hmap[x][y].value = constants.DUST_AND_JEWEL
             
         else:
-            self.hmap[x][y].value = 2
+            self.hmap[x][y].value = constants.JEWEL
             
     def display(self):
         
