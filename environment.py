@@ -97,5 +97,6 @@ class Room:
         for i in range(nb_neighbors):
             self.neighbors.append(neighbors[nb_neighbors-1])
         
-        
+    def getValue(self):
+        return self.value
         

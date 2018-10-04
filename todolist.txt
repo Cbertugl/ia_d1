@@ -2,8 +2,8 @@ Finir la recherche A* => Camille
 Vérifier que le multithreading fonctionne => Camille
 Restructurer BFS et A* pour les rendre génériques => Camille
 
-Ajouter une mesure de performance à l'environnement
-Remodéliser l'agent en le réorganisant dans les classes capteurs et effecteurs -> Thomas
+Ajouter une mesure de performance à l'environnement -> Pas urgent, le prof avait dit de le faire seulement si on avait le temps je crois
+Remodéliser l'agent en le réorganisant dans les classes capteurs et effecteurs -> Thomas A TESTER
 Créer une fonction d'observation d'environnement
 Rendre l'agent conforme à la modélisation du cours (état mental BDI)
 Ajouter un affichage graphique de l'environnement
