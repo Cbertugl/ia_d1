@@ -53,7 +53,7 @@ class Agent:
             self.__row += 1
             
         else:
-            print("Invalid moving order")
+            pass
         
         self.__consumedEnergy += self.__consumedEnergy
         self.__room = e.getRoom(self.__line, self.__row)
