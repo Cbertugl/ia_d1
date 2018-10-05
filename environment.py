@@ -28,6 +28,9 @@ class Environment:
                         neighbors.append(self.hmap[i+1][j+1])
                         nb_neighbors = nb_neighbors + 1
                 self.hmap[i][j].set_neighbors(neighbors,nb_neighbors)
+    
+    def getRoom(self, line, row):
+        return self.hmap[line][row]
         
     def gen(self):
         
@@ -75,13 +78,15 @@ class Environment:
             line = ""
             for j in range(self.height):
                 if((self.hmap[i][j].line == robotLine) and (self.hmap[i][j].row == robotRow)): line += ">"
-                elif((self.hmap[i][j].line == robotLine) and (self.hmap[i][j].row - 1 == robotRow)): line += "<"
+                elif((self.hmap[i][j].line == robotLine) and (self.hmap[i][j].row - 1 == robotRow)): line += ""
                 else: line += " "
 
                 if(self.hmap[i][j].getValue() == constants.NOTHING): line += "-"
                 elif(self.hmap[i][j].getValue() == constants.JEWEL): line += "J"
                 elif(self.hmap[i][j].getValue() == constants.DUST): line += "D"
                 elif(self.hmap[i][j].getValue() == constants.DUST_AND_JEWEL): line += "B" # B pour both
+
+                if((self.hmap[i][j].line == robotLine) and (self.hmap[i][j].row == robotRow)): line += "<"
             print(line)
         print("")
 

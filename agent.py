@@ -40,7 +40,7 @@ class Agent:
         if direction == "up" and self.line > 1:
             self.line -= 1
             
-        elif direction == "down" and self.line > e.height:
+        elif direction == "down" and self.line < e.height:
             self.line += 1
         
         elif direction == "left" and self.row > 1:

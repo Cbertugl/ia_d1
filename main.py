@@ -11,7 +11,7 @@ import search as sc
 class agentThread(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
-        self.robot = apy.Agent(5, 5)
+        self.robot = apy.Agent(1, 1)
         self.env = None
 
     def run(self):
@@ -19,20 +19,16 @@ class agentThread(threading.Thread):
         while(1):
             # TODO: algorithme de l'agent
             rand = random.randint(0,9)
-            text = "Aspirobot T-0.1 moving "
             if(rand == 0 or rand == 1):
-                text += "up"
                 self.robot.move("up", self.env)
             if(rand == 2 or rand == 3):
-                text += "down"
                 self.robot.move("down", self.env)
             if(rand == 4 or rand == 5):
-                text += "left"
                 self.robot.move("left", self.env)
             if(rand == 6 or rand == 7):
-                text += "right"
                 self.robot.move("right", self.env)
-            print(text)
+
+            self.robot.vacuum(self.env.getRoom(self.robot.line - 1, self.robot.row - 1))
 
             time.sleep(1)
 
