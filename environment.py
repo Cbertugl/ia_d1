@@ -28,6 +28,10 @@ class Environment:
                         neighbors.append(self.hmap[i+1][j+1])
                         nb_neighbors = nb_neighbors + 1
                 self.hmap[i][j].set_neighbors(neighbors,nb_neighbors)
+
+    def initElements(self):
+        for i in range(15):
+            self.gen()
     
     def getRoom(self, line, row):
         return self.hmap[line - 1][row - 1]
