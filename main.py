@@ -27,7 +27,7 @@ class envThread(threading.Thread):
         while(1):
             self.env.gen()
             time.sleep(1)
-            self.env.display()
+            self.env.display(3, 6)
             #chaque seconde on génère ou pas aléatoirement soit de la poussière, soit un bijou, soit les deux sur une case, et on affiche l'état du manoir
 
 athread = agentThread()
