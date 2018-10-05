@@ -4,8 +4,9 @@ import constants
 class Agent:
     def __init__(self, line, row):
         # Position and energy init
-        self.__line = line
-        self.__row = row
+        self.__line = line # Line number between 1 and the environment size
+        self.__row = row # Row number between 1 and the environment size
+        self.__room = None
         self.__consumedEnergy = 0
 
         # Sensors init
@@ -23,21 +24,20 @@ class Agent:
         return self.__consumedEnergy
 
     '''
-    Vacuum the given room
-    TODO: remove room parameter and make sure that the agent always have the room he is in in one attribute
+    Vacuum the actual room
     '''
-    def vacuum(self, room):
-        self.__vacuumEffector.act(room.getValue())
+    def vacuum(self):
+        self.__vacuumEffector.act(self.__room.getValue())
         self.__consumedEnergy += 1
-        room.clean()
+        self.__room.clean()
     
     '''
-    Grab the jewel in the given room
+    Grab the jewel in the actual room
     '''
-    def grabJewel(self, room):
-        self.__jewelGrabberEffector.act(room.getValue())
+    def grabJewel(self):
+        self.__jewelGrabberEffector.act(self.__room.getValue())
         self.__consumedEnergy += 1
-        room.removeJewel()        
+        self.__room.removeJewel()        
         
     def move(self, direction, e):
         if direction == "up" and self.__line > 1:
@@ -56,6 +56,7 @@ class Agent:
             print("Invalid moving order")
         
         self.__consumedEnergy += self.__consumedEnergy
+        self.__room = e.getRoom(self.__line, self.__row)
         
 # ==================================================================================================
 # SENSORS

@@ -30,7 +30,7 @@ class Environment:
                 self.hmap[i][j].set_neighbors(neighbors,nb_neighbors)
     
     def getRoom(self, line, row):
-        return self.hmap[line][row]
+        return self.hmap[line - 1][row - 1]
         
     def gen(self):
         

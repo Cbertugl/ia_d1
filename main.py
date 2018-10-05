@@ -28,8 +28,7 @@ class agentThread(threading.Thread):
             if(rand == 6 or rand == 7):
                 self.robot.move("right", self.env)
 
-            (robotLine, robotRow) = self.robot.getPosition()
-            self.robot.vacuum(self.env.getRoom(robotLine - 1, robotRow - 1))
+            self.robot.vacuum()
 
             time.sleep(1)
 
