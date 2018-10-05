@@ -21,8 +21,11 @@ class agentThread(threading.Thread):
         print("Aspirobot T-0.1 running")
 
         while(1):
+            (robotLine, robotRow) = self.__robot.getPosition()
+            self.__env.display(robotLine, robotRow)
+
             # TODO: algorithme de l'agent
-            rand = random.randint(0,9)
+            rand = random.randint(0,8)
             if(rand == 0 or rand == 1):
                 self.__robot.move("up", self.__env)
             if(rand == 2 or rand == 3):
@@ -49,10 +52,7 @@ class envThread(threading.Thread):
             #chaque seconde on génère ou pas aléatoirement soit de la poussière, soit un bijou, soit les deux sur une case, et on affiche l'état du manoir
             self.__env.gen()
 
-            (robotLine, robotRow) = self.__robot.getPosition()
-            self.__env.display(robotLine, robotRow)
-            
-            time.sleep(1)
+            time.sleep(constants.ENVIRONMENT_GENERATION_TIME)
 
 # ==================================================================================================
 # MAIN
