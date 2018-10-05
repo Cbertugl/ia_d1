@@ -28,7 +28,8 @@ class agentThread(threading.Thread):
             if(rand == 6 or rand == 7):
                 self.robot.move("right", self.env)
 
-            self.robot.vacuum(self.env.getRoom(self.robot.line - 1, self.robot.row - 1))
+            (robotLine, robotRow) = self.robot.getPosition()
+            self.robot.vacuum(self.env.getRoom(robotLine - 1, robotRow - 1))
 
             time.sleep(1)
 
@@ -43,7 +44,7 @@ class envThread(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
         self.env = epy.Environment(10)
-        self.robot = None;
+        self.robot = None
 
     def run(self):
         for i in range(15):
@@ -52,7 +53,9 @@ class envThread(threading.Thread):
         while(1):
             self.env.gen()
             time.sleep(1)
-            self.env.display(self.robot.line, self.robot.row)
+
+            (robotLine, robotRow) = self.robot.getPosition()
+            self.env.display(robotLine, robotRow)
             #chaque seconde on génère ou pas aléatoirement soit de la poussière, soit un bijou, soit les deux sur une case, et on affiche l'état du manoir
 
     def getEnv(self):

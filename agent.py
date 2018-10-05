@@ -2,57 +2,60 @@ from abc import ABC, abstractmethod
 import constants
 
 class Agent:
-    
     def __init__(self, line, row):
         # Position and energy init
-        self.line = line
-        self.row = row
-        self.consumedEnergy = 0
+        self.__line = line
+        self.__row = row
+        self.__consumedEnergy = 0
 
         # Sensors init
-        self.dustSensor = DustSensor()
-        self.jewelSensor = JewelSensor()
+        self.__dustSensor = DustSensor()
+        self.__jewelSensor = JewelSensor()
 
         # Effectors init
-        self.vacuumEffector = VacuumEffector()
-        self.jewelGrabberEffector = JewelGrabberEffector()
+        self.__vacuumEffector = VacuumEffector()
+        self.__jewelGrabberEffector = JewelGrabberEffector()
+
+    def getPosition(self):
+        return (self.__line, self.__row)
 
     def getEnergyConsumption(self):
-        return self.consumedEnergy
+        return self.__consumedEnergy
 
     '''
     Vacuum the given room
+    TODO: remove room parameter and make sure that the agent always have the room he is in in one attribute
     '''
     def vacuum(self, room):
-        self.vacuumEffector.act(room.getValue())
-        self.consumedEnergy += 1
+        self.__vacuumEffector.act(room.getValue())
+        self.__consumedEnergy += 1
         room.clean()
     
     '''
     Grab the jewel in the given room
     '''
     def grabJewel(self, room):
-        self.jewelGrabberEffector.act(room.getValue())
-        self.consumedEnergy += 1
+        self.__jewelGrabberEffector.act(room.getValue())
+        self.__consumedEnergy += 1
         room.removeJewel()        
         
     def move(self, direction, e):
-        if direction == "up" and self.line > 1:
-            self.line -= 1
+        if direction == "up" and self.__line > 1:
+            self.__line -= 1
             
-        elif direction == "down" and self.line < e.height:
-            self.line += 1
+        elif direction == "down" and self.__line < e.height:
+            self.__line += 1
         
-        elif direction == "left" and self.row > 1:
-            self.row -= 1
+        elif direction == "left" and self.__row > 1:
+            self.__row -= 1
         
-        elif direction == "right" and self.row < e.width:
-            self.row += 1
+        elif direction == "right" and self.__row < e.width:
+            self.__row += 1
             
         else:
             print("Invalid moving order")
         
-        self.consumedEnergy += self.consumedEnergy
+        self.__consumedEnergy += self.__consumedEnergy
         
 # ==================================================================================================
 # SENSORS
