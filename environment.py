@@ -4,7 +4,7 @@ import constants
 class Environment:
     
     def __init__(self,size):
-        self.x, self.y = size, size #cree un tableau carré d'une taille fixée
+        self.width, self.height = size, size #cree un tableau carré d'une taille fixée
         self.hmap = [[Room(j+1,i+1) for i in range(size)] for j in range(size)]
         #for i in range(size): #on initialise les instances des pièces
         #    for j in range(size):
@@ -71,9 +71,9 @@ class Environment:
             self.hmap[x][y].value = constants.JEWEL
 
     def display(self, robotLine = -1, robotRow = -1):
-        for i in range(self.x):
+        for i in range(self.width):
             line = ""
-            for j in range(self.y):
+            for j in range(self.height):
                 if((self.hmap[i][j].line == robotLine) and (self.hmap[i][j].row == robotRow)): line += ">"
                 elif((self.hmap[i][j].line == robotLine) and (self.hmap[i][j].row - 1 == robotRow)): line += "<"
                 else: line += " "

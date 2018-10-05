@@ -3,10 +3,10 @@ import constants
 
 class Agent:
     
-    def __init__(self,x,y):
+    def __init__(self, line, row):
         # Position and energy init
-        self.posx = x #position du robot sur l'axe x
-        self.posy = y #position du robot sur l'axe y
+        self.line = line
+        self.row = row
         self.consumedEnergy = 0
 
         # Sensors init
@@ -36,24 +36,23 @@ class Agent:
         self.consumedEnergy += 1
         room.removeJewel()        
         
-    def move(self,direction,e): #se deplace dans la direction voulue
-        
-        if direction == up and self.posy < len(e.y):
-            self.posy = self.posy + 1
+    def move(self, direction, e):
+        if direction == "up" and self.line > 1:
+            self.line -= 1
             
-        elif direction == down and self.posy > 0:
-            self.posy = self.posy - 1
+        elif direction == "down" and self.line > e.height:
+            self.line += 1
         
-        elif direction == left and self.posx > 0:
-            self.posy = self.posx + 1
+        elif direction == "left" and self.row > 1:
+            self.row -= 1
         
-        elif direction == right and self.posx < len(e.x):
-            self.posy = self.posx - 1
+        elif direction == "right" and self.row < e.width:
+            self.row += 1
             
         else:
             print("Invalid moving order")
         
-        self.energy = self.energy + 1
+        self.consumedEnergy += self.consumedEnergy
         
 # ==================================================================================================
 # SENSORS
