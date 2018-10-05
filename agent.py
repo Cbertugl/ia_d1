@@ -78,7 +78,7 @@ class DustSensor(Sensor):
 
 class JewelSensor(Sensor):
     def detect(self, elementValue):
-        print((elementValue == constants.JEWEL) or (elementValue == constants.DUST_AND_JEWEL))
+        return((elementValue == constants.JEWEL) or (elementValue == constants.DUST_AND_JEWEL))
 
 # ==================================================================================================
 # EFFECTORS
