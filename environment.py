@@ -90,7 +90,7 @@ class Room:
         self.y=posy
         self.nb_neighbors = 0
         self.neighbors = []
-        self.value = constants.NOTHING #on considere 0 = rien, 1 = poussiere, 2 = bijou, 3 = poussiere et bijou
+        self.value = constants.NOTHING
         
     def set_neighbors(self,neighbors,nb_neighbors):
         self.nb_neighbors=nb_neighbors
@@ -99,4 +99,11 @@ class Room:
         
     def getValue(self):
         return self.value
+
+    def clean(self):
+        self.value = constants.NOTHING
+
+    def removeJewel(self):
+        if(self.value == constants.JEWEL): self.value = constants.NOTHING
+        elif(self.value == constants.DUST_AND_JEWEL): self.value = constants.DUST
         

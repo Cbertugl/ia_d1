@@ -26,7 +26,7 @@ class Agent:
     def vacuum(self, room):
         self.vacuumEffector.act(room.getValue())
         self.consumedEnergy += 1
-        # TODO: update room state, something like room.clean()
+        room.clean()
     
     '''
     Grab the jewel in the given room
@@ -34,7 +34,7 @@ class Agent:
     def grabJewel(self, room):
         self.jewelGrabberEffector.act(room.getValue())
         self.consumedEnergy += 1
-        # TODO: update room state, something like room.removeJewel()        
+        room.removeJewel()        
         
     def move(self,direction,e): #se deplace dans la direction voulue
         
