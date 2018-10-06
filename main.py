@@ -35,7 +35,7 @@ class agentThread(threading.Thread):
             self.__robot.chooseActions()
 
             # Performing intentions
-            self.__robot.performActions()
+            self.__robot.performActions(self.__env)
 
             time.sleep(constants.AGENT_ACTION_TIME)
 

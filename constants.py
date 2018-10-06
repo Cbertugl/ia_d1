@@ -1,6 +1,24 @@
+# ==================================================================================================
+# OPTIONS
+# ==================================================================================================
+AGENT_ACTION_TIME = 0.5 # Time in seconds for the agent to perform an action
+ENVIRONMENT_GENERATION_TIME = 1 # Time in seconds for the environment to try to generate an element
+
+# ==================================================================================================
+# ROOM ELEMENTS
+# ==================================================================================================
 NOTHING = 0
 DUST = 1
 JEWEL = 2
 DUST_AND_JEWEL = 3
-AGENT_ACTION_TIME = 0.5 # Time in seconds for the agent to perform an action
-ENVIRONMENT_GENERATION_TIME = 1 # Time in seconds for the environment to try to generate an element
+
+# ==================================================================================================
+# ACTIONS
+# ==================================================================================================
+VACUUM = 0
+GRAB_JEWEL = 1
+MOVE_UP = 2
+MOVE_DOWN = 3
+MOVE_LEFT = 4
+MOVE_RIGHT = 5
+DO_NOTHING = 6

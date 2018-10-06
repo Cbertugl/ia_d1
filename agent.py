@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 import constants
 import environment
+import search
 
 class Agent:
     # ==============================================================================================
@@ -43,7 +44,6 @@ class Agent:
     Returns true if alive, false otherwise
     '''
     def isAlive(self):
-        # We could use the belief here to determine whether we are alive or not
         return True
 
     '''
@@ -74,12 +74,17 @@ class Agent:
     
     def chooseActions(self):
         # TODO: explore only if desire not reached ?
-        # TODO:
-        pass
+        self.__intentions = search.mockSearch()
 
-    def performActions(self):
-        # TODO:
-        pass
+    def performActions(self, env):
+        for i in range(len(self.__intentions)):
+            if(self.__intentions[i] == constants.VACUUM): self.vacuum()
+            elif(self.__intentions[i] == constants.GRAB_JEWEL): self.grabJewel()
+            elif(self.__intentions[i] == constants.MOVE_UP): self.moveUp(env)
+            elif(self.__intentions[i] == constants.MOVE_DOWN): self.moveDown(env)
+            elif(self.__intentions[i] == constants.MOVE_LEFT): self.moveLeft(env)
+            elif(self.__intentions[i] == constants.MOVE_RIGHT): self.moveRight(env)
+            elif(self.__intentions[i] == constants.DO_NOTHING): self.doNothing()
 
     # ==============================================================================================
     # ACTIONS
@@ -100,32 +105,32 @@ class Agent:
         self.__consumedEnergy += 1
         self.__room.removeJewel()
         
-    def moveUp(self):
+    def moveUp(self, env):
         (line, row) = self.__room.getPosition()
         if line > 1:
             line -= 1
-            self.__room = self.__belief.getRoom(line, row)
+            self.__room = env.getRoom(line, row)
             self.__consumedEnergy += self.__consumedEnergy
 
-    def moveDown(self):
+    def moveDown(self, env):
         (line, row) = self.__room.getPosition()
         if line < self.__belief.getSize():
             line += 1
-            self.__room = self.__belief.getRoom(line, row)
+            self.__room = env.getRoom(line, row)
             self.__consumedEnergy += self.__consumedEnergy
 
-    def moveLeft(self):
+    def moveLeft(self, env):
         (line, row) = self.__room.getPosition()
         if row > 1:
             row -= 1
-            self.__room = self.__belief.getRoom(line, row)
+            self.__room = env.getRoom(line, row)
             self.__consumedEnergy += self.__consumedEnergy
 
-    def moveRight(self):
+    def moveRight(self, env):
         (line, row) = self.__room.getPosition()
         if row < self.__belief.getSize():
             row += 1
-            self.__room = self.__belief.getRoom(line, row)
+            self.__room = env.getRoom(line, row)
             self.__consumedEnergy += self.__consumedEnergy
 
     def doNothing(self):
