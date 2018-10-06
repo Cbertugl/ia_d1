@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
 import constants
 import environment
+import search
+import time
 
 class Agent:
     # ==============================================================================================
@@ -8,6 +10,7 @@ class Agent:
     # ==============================================================================================
     def __init__(self, size, room):
         # Position and energy init
+        self.__state = "waiting..."
         self.__room = room
         self.__consumedEnergy = 0
 
@@ -19,7 +22,7 @@ class Agent:
         self.__vacuumEffector = VacuumEffector()
         self.__jewelGrabberEffector = JewelGrabberEffector()
 
-        # BDI (beliefs, desires, intentions) TODO: finish
+        # BDI (beliefs, desires, intentions)
         self.__belief = None # No belief at the beginning
         self.__desire = environment.Environment(size) # Ideal environment is an empty one
         self.__intentions = [] # No intentions at the beginning
@@ -43,13 +46,14 @@ class Agent:
     Returns true if alive, false otherwise
     '''
     def isAlive(self):
-        # We could use the belief here to determine whether we are alive or not
         return True
 
     '''
     Returns an instance of Environment
     '''
     def observeEnvironmentWithMySensor(self, env):
+        self.__state = "observing environment"
+
         size = env.getSize()
         belief = environment.Environment(size) # Empty environment
         map = env.getMap()
@@ -73,13 +77,27 @@ class Agent:
         return belief
     
     def chooseActions(self):
+        self.__state = "choosing actions"
         # TODO: explore only if desire not reached ?
-        # TODO:
-        pass
+        self.__intentions = search.mockSearch()
 
-    def performActions(self):
-        # TODO:
-        pass
+    def performActions(self, env):
+        self.__state = "performing actions"
+
+        action = None
+        if(len(self.__intentions) > 0): action = self.__intentions.pop(0)
+
+        while(action != None):
+            if(action == constants.VACUUM): self.vacuum()
+            elif(action == constants.GRAB_JEWEL): self.grabJewel()
+            elif(action == constants.MOVE_UP): self.moveUp(env)
+            elif(action == constants.MOVE_DOWN): self.moveDown(env)
+            elif(action == constants.MOVE_LEFT): self.moveLeft(env)
+            elif(action == constants.MOVE_RIGHT): self.moveRight(env)
+            elif(action == constants.DO_NOTHING): self.doNothing()
+
+            action = None
+            if(len(self.__intentions) > 0): action = self.__intentions.pop(0)
 
     # ==============================================================================================
     # ACTIONS
@@ -88,6 +106,7 @@ class Agent:
     Vacuum the actual room
     '''
     def vacuum(self):
+        time.sleep(constants.AGENT_ACTION_TIME)
         self.__vacuumEffector.act(self.__room.getValue())
         self.__consumedEnergy += 1
         self.__room.clean()
@@ -96,40 +115,76 @@ class Agent:
     Grab the jewel in the actual room
     '''
     def grabJewel(self):
+        time.sleep(constants.AGENT_ACTION_TIME)
         self.__jewelGrabberEffector.act(self.__room.getValue())
         self.__consumedEnergy += 1
         self.__room.removeJewel()
         
-    def moveUp(self):
+    def moveUp(self, env):
+        time.sleep(constants.AGENT_ACTION_TIME)
         (line, row) = self.__room.getPosition()
         if line > 1:
             line -= 1
-            self.__room = self.__belief.getRoom(line, row)
-            self.__consumedEnergy += self.__consumedEnergy
+            self.__room = env.getRoom(line, row)
+            self.__consumedEnergy += 1
 
-    def moveDown(self):
+    def moveDown(self, env):
+        time.sleep(constants.AGENT_ACTION_TIME)
         (line, row) = self.__room.getPosition()
         if line < self.__belief.getSize():
             line += 1
-            self.__room = self.__belief.getRoom(line, row)
-            self.__consumedEnergy += self.__consumedEnergy
+            self.__room = env.getRoom(line, row)
+            self.__consumedEnergy += 1
 
-    def moveLeft(self):
+    def moveLeft(self, env):
+        time.sleep(constants.AGENT_ACTION_TIME)
         (line, row) = self.__room.getPosition()
         if row > 1:
             row -= 1
-            self.__room = self.__belief.getRoom(line, row)
-            self.__consumedEnergy += self.__consumedEnergy
+            self.__room = env.getRoom(line, row)
+            self.__consumedEnergy += 1
 
-    def moveRight(self):
+    def moveRight(self, env):
+        time.sleep(constants.AGENT_ACTION_TIME)
         (line, row) = self.__room.getPosition()
         if row < self.__belief.getSize():
             row += 1
-            self.__room = self.__belief.getRoom(line, row)
-            self.__consumedEnergy += self.__consumedEnergy
+            self.__room = env.getRoom(line, row)
+            self.__consumedEnergy += 1
 
     def doNothing(self):
-        pass
+        time.sleep(constants.AGENT_ACTION_TIME)
+
+    # ==============================================================================================
+    # DISPLAY
+    # ==============================================================================================
+    def display(self):
+        # Belief
+        (line, row) = self.getPosition()
+        if(self.__belief != None): self.__belief.display(line, row)
+        else: print("No belief yet")
+
+        # State
+        print("State: "+self.__state)
+
+        # Intentions
+        line = "Intentions: "
+        for i in range(len(self.__intentions)):
+            if(self.__intentions[i] == constants.VACUUM): line += "VACUUM"
+            elif(self.__intentions[i] == constants.GRAB_JEWEL): line += "GRAB_JEWEL"
+            elif(self.__intentions[i] == constants.MOVE_UP): line += "UP"
+            elif(self.__intentions[i] == constants.MOVE_DOWN): line += "DOWN"
+            elif(self.__intentions[i] == constants.MOVE_LEFT): line += "LEFT"
+            elif(self.__intentions[i] == constants.MOVE_RIGHT): line += "RIGHT"
+            elif(self.__intentions[i] == constants.DO_NOTHING): line += "DO_NOTHING"
+            if(i != len(self.__intentions) - 1): line += ", "
+        if(len(self.__intentions) == 0): line += "none"
+        print(line)
+
+        # Consumed energy
+        print("Consumed energy:", self.__consumedEnergy)
+
+        print("")
 
 # ==================================================================================================
 # SENSORS

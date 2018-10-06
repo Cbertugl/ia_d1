@@ -1,5 +1,29 @@
 #!/usr/bin/python
 
+import constants
+import random
+import time
+
+'''
+Returns a random serie of 20 actions
+'''
+def mockSearch():
+    time.sleep(4) # Simulate exploration time
+    intentions = []
+
+    for i in range(20):
+        rand = random.randint(0, 6)
+        if(rand == 0): action = constants.VACUUM
+        elif(rand == 1): action = constants.GRAB_JEWEL
+        elif(rand == 2): action = constants.MOVE_UP
+        elif(rand == 3): action = constants.MOVE_DOWN
+        elif(rand == 4): action = constants.MOVE_LEFT
+        elif(rand == 5): action = constants.MOVE_RIGHT
+        elif(rand == 6): action = constants.DO_NOTHING
+        intentions.append(action)
+
+    return intentions
+
 def breadth_first_search(starting_room, goal_room):
     path = [] #chemin parcouru
     queue = [starting_room] #file à explorer
