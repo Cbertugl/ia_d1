@@ -137,8 +137,8 @@ class Effector(ABC):
     
 class VacuumEffector(Effector):
     def __init__(self):
-        self.nbDustVacuumed = 0 # number of dust vacuumed
-        self.nbJewelVacuumed = 0 # number of jewel vacuumed
+        self.nbDustVacuumed = 0 # number of dusts vacuumed
+        self.nbJewelVacuumed = 0 # number of jewels vacuumed
 
         super().__init__()
 
@@ -157,7 +157,7 @@ class VacuumEffector(Effector):
 
 class JewelGrabberEffector(Effector):
     def __init__(self):
-        self.nbJewelGrabbed = 0 # number of dust grabbed
+        self.nbJewelGrabbed = 0 # number of jewels grabbed
 
         super().__init__()
 
