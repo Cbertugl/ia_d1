@@ -3,7 +3,10 @@ import constants
 import environment
 
 class Agent:
-    def __init__(self, room):
+    # ==============================================================================================
+    # CONSTRUCTOR
+    # ==============================================================================================
+    def __init__(self, size, room):
         # Position and energy init
         self.__room = room
         self.__consumedEnergy = 0
@@ -17,10 +20,13 @@ class Agent:
         self.__jewelGrabberEffector = JewelGrabberEffector()
 
         # BDI (beliefs, desires, intentions) TODO: finish
-        self.__belief = None
-        # self.__desire = environment.Environment()
-        #self.__intentions = 
+        self.__belief = None # No belief at the beginning
+        self.__desire = environment.Environment(size) # Ideal environment is an empty one
+        self.__intentions = [] # No intentions at the beginning
 
+    # ==============================================================================================
+    # GETTERS AND SETTERS
+    # ==============================================================================================
     def getPosition(self):
         return self.__room.getPosition()
 
@@ -30,6 +36,9 @@ class Agent:
     def setBelief(self, belief):
         self.__belief = belief
 
+    # ==============================================================================================
+    # MAIN FUNCTIONS
+    # ==============================================================================================
     '''
     Returns true if alive, false otherwise
     '''
@@ -62,7 +71,19 @@ class Agent:
                 belief.getRoom(roomLine, roomRow).setValue(sensorValue)
 
         return belief
+    
+    def chooseActions(self):
+        # TODO: explore only if desire not reached ?
+        # TODO:
+        pass
 
+    def performActions(self):
+        # TODO:
+        pass
+
+    # ==============================================================================================
+    # ACTIONS
+    # ==============================================================================================
     '''
     Vacuum the actual room
     '''
@@ -77,28 +98,39 @@ class Agent:
     def grabJewel(self):
         self.__jewelGrabberEffector.act(self.__room.getValue())
         self.__consumedEnergy += 1
-        self.__room.removeJewel()        
+        self.__room.removeJewel()
         
-    def move(self, direction, e):
+    def moveUp(self):
         (line, row) = self.__room.getPosition()
-        if direction == "up" and line > 1:
+        if line > 1:
             line -= 1
-            
-        elif direction == "down" and line < e.getSize():
+            self.__room = self.__belief.getRoom(line, row)
+            self.__consumedEnergy += self.__consumedEnergy
+
+    def moveDown(self):
+        (line, row) = self.__room.getPosition()
+        if line < e.getSize():
             line += 1
-        
-        elif direction == "left" and row > 1:
+            self.__room = self.__belief.getRoom(line, row)
+            self.__consumedEnergy += self.__consumedEnergy
+
+    def moveLeft(self):
+        (line, row) = self.__room.getPosition()
+        if row > 1:
             row -= 1
-        
-        elif direction == "right" and row < e.getSize():
+            self.__room = self.__belief.getRoom(line, row)
+            self.__consumedEnergy += self.__consumedEnergy
+
+    def moveRight(self):
+        (line, row) = self.__room.getPosition()
+        if row < e.getSize():
             row += 1
-            
-        else:
-            pass
-        
-        self.__consumedEnergy += self.__consumedEnergy
-        self.__room = e.getRoom(line, row)
-        
+            self.__room = self.__belief.getRoom(line, row)
+            self.__consumedEnergy += self.__consumedEnergy
+
+    def doNothing(self):
+        pass
+
 # ==================================================================================================
 # SENSORS
 # ==================================================================================================

@@ -32,23 +32,10 @@ class agentThread(threading.Thread):
             self.__robot.setBelief(observation)
 
             # Exploring
-            # TODO: explore only if desire not reached ?
+            self.__robot.chooseActions()
 
             # Performing intentions
-            # TODO:
-
-            # TODO: algorithme de l'agent
-            rand = random.randint(0,8)
-            if(rand == 0 or rand == 1):
-                self.__robot.move("up", self.__env)
-            if(rand == 2 or rand == 3):
-                self.__robot.move("down", self.__env)
-            if(rand == 4 or rand == 5):
-                self.__robot.move("left", self.__env)
-            if(rand == 6 or rand == 7):
-                self.__robot.move("right", self.__env)
-
-            self.__robot.vacuum()
+            self.__robot.performActions()
 
             time.sleep(constants.AGENT_ACTION_TIME)
 
@@ -75,7 +62,7 @@ envSize = 10
 (line, row) = (random.randint(1, envSize), random.randint(1, envSize)) # Initial robot position
 
 env = epy.Environment(envSize)
-agent = apy.Agent(env.getRoom(line, row))
+agent = apy.Agent(envSize, env.getRoom(line, row))
 
 env.initElements() # We create some initial dust and jewels
 
