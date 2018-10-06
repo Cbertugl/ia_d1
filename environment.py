@@ -3,8 +3,8 @@ import constants
 
 class Environment:
     
-    def __init__(self,size):
-        self.width, self.height = size, size #cree un tableau carré d'une taille fixée
+    def __init__(self, size):
+        self.__size = size
         self.hmap = [[Room(j+1,i+1) for i in range(size)] for j in range(size)]
         #for i in range(size): #on initialise les instances des pièces
         #    for j in range(size):
@@ -29,12 +29,18 @@ class Environment:
                         nb_neighbors = nb_neighbors + 1
                 self.hmap[i][j].set_neighbors(neighbors,nb_neighbors)
 
-    def initElements(self):
-        for i in range(15):
-            self.gen()
+    def getSize(self):
+        return self.__size
     
     def getRoom(self, line, row):
         return self.hmap[line - 1][row - 1]
+
+    def getMap(self):
+        return self.hmap
+
+    def initElements(self):
+        for i in range(15):
+            self.gen()
         
     def gen(self):
         
@@ -78,9 +84,9 @@ class Environment:
             self.hmap[x][y].value = constants.JEWEL
 
     def display(self, robotLine = -1, robotRow = -1):
-        for i in range(self.width):
+        for i in range(self.__size):
             line = ""
-            for j in range(self.height):
+            for j in range(self.__size):
                 if((self.hmap[i][j].line == robotLine) and (self.hmap[i][j].row == robotRow)): line += ">"
                 elif((self.hmap[i][j].line == robotLine) and (self.hmap[i][j].row - 1 == robotRow)): line += ""
                 else: line += " "
@@ -107,8 +113,14 @@ class Room:
         for i in range(nb_neighbors):
             self.neighbors.append(neighbors[nb_neighbors-1])
         
+    def getPosition(self):
+        return (self.line, self.row)
+
     def getValue(self):
         return self.value
+
+    def setValue(self, value):
+        self.value = value
 
     def clean(self):
         self.value = constants.NOTHING
