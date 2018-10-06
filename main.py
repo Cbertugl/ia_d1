@@ -22,8 +22,8 @@ class agentThread(threading.Thread):
 
         while(self.__robot.isAlive()):
             # Environment display
-            # (robotLine, robotRow) = self.__robot.getPosition()
-            # self.__env.display(robotLine, robotRow)
+            (robotLine, robotRow) = self.__robot.getPosition()
+            self.__env.display(robotLine, robotRow)
 
             # Observing environment
             observation = self.__robot.observeEnvironmentWithMySensor(self.__env)
@@ -32,7 +32,7 @@ class agentThread(threading.Thread):
             self.__robot.setBelief(observation)
 
             # Exploring
-            # TODO:
+            # TODO: explore only if desire not reached ?
 
             # Performing intentions
             # TODO:
@@ -75,7 +75,7 @@ envSize = 10
 (line, row) = (random.randint(1, envSize), random.randint(1, envSize)) # Initial robot position
 
 env = epy.Environment(envSize)
-agent = apy.Agent(line, row)
+agent = apy.Agent(env.getRoom(line, row))
 
 env.initElements() # We create some initial dust and jewels
 

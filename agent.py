@@ -3,11 +3,9 @@ import constants
 import environment
 
 class Agent:
-    def __init__(self, line, row):
+    def __init__(self, room):
         # Position and energy init
-        self.__line = line # Line number between 1 and the environment size
-        self.__row = row # Row number between 1 and the environment size
-        self.__room = None # TODO: initialiser à quelque chose
+        self.__room = room
         self.__consumedEnergy = 0
 
         # Sensors init
@@ -24,7 +22,7 @@ class Agent:
         #self.__intentions = 
 
     def getPosition(self):
-        return (self.__line, self.__row)
+        return self.__room.getPosition()
 
     def getEnergyConsumption(self):
         return self.__consumedEnergy
@@ -36,6 +34,7 @@ class Agent:
     Returns true if alive, false otherwise
     '''
     def isAlive(self):
+        # We could use the belief here to determine whether we are alive or not
         return True
 
     '''
@@ -81,23 +80,24 @@ class Agent:
         self.__room.removeJewel()        
         
     def move(self, direction, e):
-        if direction == "up" and self.__line > 1:
-            self.__line -= 1
+        (line, row) = self.__room.getPosition()
+        if direction == "up" and line > 1:
+            line -= 1
             
-        elif direction == "down" and self.__line < e.getSize():
-            self.__line += 1
+        elif direction == "down" and line < e.getSize():
+            line += 1
         
-        elif direction == "left" and self.__row > 1:
-            self.__row -= 1
+        elif direction == "left" and row > 1:
+            row -= 1
         
-        elif direction == "right" and self.__row < e.getSize():
-            self.__row += 1
+        elif direction == "right" and row < e.getSize():
+            row += 1
             
         else:
             pass
         
         self.__consumedEnergy += self.__consumedEnergy
-        self.__room = e.getRoom(self.__line, self.__row)
+        self.__room = e.getRoom(line, row)
         
 # ==================================================================================================
 # SENSORS
