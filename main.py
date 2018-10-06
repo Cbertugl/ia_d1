@@ -20,9 +20,22 @@ class agentThread(threading.Thread):
     def run(self):
         print("Aspirobot T-0.1 running")
 
-        while(1):
-            (robotLine, robotRow) = self.__robot.getPosition()
-            self.__env.display(robotLine, robotRow)
+        while(self.__robot.isAlive()):
+            # Environment display
+            # (robotLine, robotRow) = self.__robot.getPosition()
+            # self.__env.display(robotLine, robotRow)
+
+            # Observing environment
+            observation = self.__robot.observeEnvironmentWithMySensor(self.__env)
+
+            # Updating belief
+            self.__robot.setBelief(observation)
+
+            # Exploring
+            # TODO:
+
+            # Performing intentions
+            # TODO:
 
             # TODO: algorithme de l'agent
             rand = random.randint(0,8)
