@@ -1,12 +1,13 @@
 from abc import ABC, abstractmethod
 import constants
+import environment
 
 class Agent:
     def __init__(self, line, row):
         # Position and energy init
         self.__line = line # Line number between 1 and the environment size
         self.__row = row # Row number between 1 and the environment size
-        self.__room = None
+        self.__room = None # TODO: initialiser à quelque chose
         self.__consumedEnergy = 0
 
         # Sensors init
@@ -17,11 +18,51 @@ class Agent:
         self.__vacuumEffector = VacuumEffector()
         self.__jewelGrabberEffector = JewelGrabberEffector()
 
+        # BDI (beliefs, desires, intentions) TODO: finish
+        self.__belief = None
+        # self.__desire = environment.Environment()
+        #self.__intentions = 
+
     def getPosition(self):
         return (self.__line, self.__row)
 
     def getEnergyConsumption(self):
         return self.__consumedEnergy
+
+    def setBelief(self, belief):
+        self.__belief = belief
+
+    '''
+    Returns true if alive, false otherwise
+    '''
+    def isAlive(self):
+        return True
+
+    '''
+    Returns an instance of Environment
+    '''
+    def observeEnvironmentWithMySensor(self, env):
+        size = env.getSize()
+        belief = environment.Environment(size) # Empty environment
+        map = env.getMap()
+
+        for i in range(size):
+            for j in range(size):
+                room = map[i][j]
+                roomValue = room.getValue()
+                sensorValue = constants.NOTHING
+
+                # Sensing room
+                if(self.__dustSensor.detect(roomValue) and self.__jewelSensor.detect(roomValue)):
+                    sensorValue = constants.DUST_AND_JEWEL
+                elif(self.__dustSensor.detect(roomValue)): sensorValue = constants.DUST
+                elif(self.__jewelSensor.detect(roomValue)): sensorValue = constants.JEWEL
+
+                # Actualizing belief
+                (roomLine, roomRow) = room.getPosition()
+                belief.getRoom(roomLine, roomRow).setValue(sensorValue)
+
+        return belief
 
     '''
     Vacuum the actual room
@@ -43,13 +84,13 @@ class Agent:
         if direction == "up" and self.__line > 1:
             self.__line -= 1
             
-        elif direction == "down" and self.__line < e.height:
+        elif direction == "down" and self.__line < e.getSize():
             self.__line += 1
         
         elif direction == "left" and self.__row > 1:
             self.__row -= 1
         
-        elif direction == "right" and self.__row < e.width:
+        elif direction == "right" and self.__row < e.getSize():
             self.__row += 1
             
         else:
