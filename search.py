@@ -2,11 +2,13 @@
 
 import constants
 import random
+import time
 
 '''
 Returns a random serie of 20 actions
 '''
 def mockSearch():
+    time.sleep(4) # Simulate exploration time
     intentions = []
 
     for i in range(20):
