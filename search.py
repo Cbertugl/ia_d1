@@ -17,7 +17,7 @@ def breadth_first_search(starting_room, goal_room):
 def a_star_search(starting_room, goal_room): #pas fini
     path = []
     queue = [starting_room]
-    cost= abs(goal_room.x-starting_room.x) + abs(goal_room.x-starting_room.x)
+    cost = 0
     
     while not queue.empty():
         current_room = queue.pop()
@@ -27,9 +27,12 @@ def a_star_search(starting_room, goal_room): #pas fini
             break
         else:
             for i in current_room.nb_neighbors:
+                predicted_cost = cost + 1
                 queue.append(current_room.neighbors[i])
                 #ordonnancer l'append en fonction d'un coût prédit sur l'heuristique
                 # => créer une nouvelle fnction comme append avec une notion de priorité ?
             
     return path
     
+def heuristic(starting_room, goal_room):
+    return abs(goal_room.x-starting_room.x) + abs(goal_room.x-starting_room.x)
