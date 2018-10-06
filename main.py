@@ -21,10 +21,6 @@ class agentThread(threading.Thread):
         print("Aspirobot T-0.1 running")
 
         while(self.__robot.isAlive()):
-            # Environment display
-            (robotLine, robotRow) = self.__robot.getPosition()
-            self.__env.display(robotLine, robotRow)
-
             # Observing environment
             observation = self.__robot.observeEnvironmentWithMySensor(self.__env)
 
@@ -36,8 +32,6 @@ class agentThread(threading.Thread):
 
             # Performing intentions
             self.__robot.performActions(self.__env)
-
-            time.sleep(constants.AGENT_ACTION_TIME)
 
 class envThread(threading.Thread):
     def __init__(self, env, agent):
@@ -54,6 +48,22 @@ class envThread(threading.Thread):
 
             time.sleep(constants.ENVIRONMENT_GENERATION_TIME)
 
+class displayThread(threading.Thread):
+    def __init__(self, env, agent):
+        threading.Thread.__init__(self)
+        self.__env = env
+        self.__agent = agent
+
+    def run(self):
+        while(1):
+            print("=== ENVIRONNEMENT ===")
+            self.__env.display()
+
+            print("======= ROBOT =======")
+            self.__agent.display()
+
+            time.sleep(1)
+
 # ==================================================================================================
 # MAIN
 # ==================================================================================================
@@ -69,7 +79,9 @@ env.initElements() # We create some initial dust and jewels
 # Creating threads
 athread = agentThread(agent, env)
 ethread = envThread(env, agent)
+dthread = displayThread(env, agent)
 
 # Starting threads
 ethread.start()
 athread.start()
+dthread.start()

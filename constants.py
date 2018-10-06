@@ -1,7 +1,7 @@
 # ==================================================================================================
 # OPTIONS
 # ==================================================================================================
-AGENT_ACTION_TIME = 0.5 # Time in seconds for the agent to perform an action
+AGENT_ACTION_TIME = 0.2 # Time in seconds for the agent to perform an action
 ENVIRONMENT_GENERATION_TIME = 1 # Time in seconds for the environment to try to generate an element
 
 # ==================================================================================================
