@@ -29,6 +29,7 @@ class agentThread(threading.Thread):
 
             # Exploring
             self.__robot.chooseActions()
+            print("Done")
 
             # Performing intentions
             self.__robot.performActions(self.__env)

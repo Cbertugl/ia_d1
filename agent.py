@@ -79,8 +79,9 @@ class Agent:
     def chooseActions(self):
         self.__state = "choosing actions"
         # TODO: explore only if desire not reached ?
-        self.__intentions = search.mockSearch()
-
+        #self.__intentions = search.mockSearch()
+        self.__intentions = search.breadthFirstSearch(self.__room)
+        
     def performActions(self, env):
         self.__state = "performing actions"
 

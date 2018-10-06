@@ -11,23 +11,16 @@ class Environment:
         #        self.hmap[i][j] = Room(i+1,j+1) #note: les pièces vont de 1 à size, le tableau hmap de 0 à size-1
         for i in range(size): #on initialise les voisins des pièces
             for j in range(size):
-                nb_neighbors = 0
                 neighbors = []
                 if i > 0:
-                    if j > 0:
-                        neighbors.append(self.hmap[i-1][j-1])
-                        nb_neighbors = nb_neighbors + 1
-                    if j < size-1:
-                        neighbors.append(self.hmap[i-1][j+1])
-                        nb_neighbors = nb_neighbors + 1
+                    neighbors.append(self.hmap[i-1][j])
                 if i < size-1:
-                    if j > 0:
-                        neighbors.append(self.hmap[i+1][j-1])
-                        nb_neighbors = nb_neighbors + 1
-                    if j < size-1:
-                        neighbors.append(self.hmap[i+1][j+1])
-                        nb_neighbors = nb_neighbors + 1
-                self.hmap[i][j].set_neighbors(neighbors,nb_neighbors)
+                    neighbors.append(self.hmap[i+1][j])
+                if j > 0:
+                    neighbors.append(self.hmap[i][j-1])
+                if j < size-1:
+                    neighbors.append(self.hmap[i][j+1])   
+                self.hmap[i][j].setNeighbors(neighbors)
 
     def getSize(self):
         return self.__size
@@ -104,14 +97,12 @@ class Room:
     def __init__(self, line, row):
         self.line = line
         self.row = row
-        self.nb_neighbors = 0
         self.neighbors = []
         self.value = constants.NOTHING
         
-    def set_neighbors(self,neighbors,nb_neighbors):
-        self.nb_neighbors=nb_neighbors
-        for i in range(nb_neighbors):
-            self.neighbors.append(neighbors[nb_neighbors-1])
+    def setNeighbors(self,neighbors):
+        for i in range(len(neighbors)):
+            self.neighbors.append(neighbors[i])
         
     def getPosition(self):
         return (self.line, self.row)
