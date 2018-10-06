@@ -109,7 +109,7 @@ class Agent:
 
     def moveDown(self):
         (line, row) = self.__room.getPosition()
-        if line < e.getSize():
+        if line < self.__belief.getSize():
             line += 1
             self.__room = self.__belief.getRoom(line, row)
             self.__consumedEnergy += self.__consumedEnergy
@@ -123,7 +123,7 @@ class Agent:
 
     def moveRight(self):
         (line, row) = self.__room.getPosition()
-        if row < e.getSize():
+        if row < self.__belief.getSize():
             row += 1
             self.__room = self.__belief.getRoom(line, row)
             self.__consumedEnergy += self.__consumedEnergy
