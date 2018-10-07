@@ -9,10 +9,11 @@ class Agent:
     # CONSTRUCTOR
     # ==============================================================================================
     def __init__(self, size, room):
-        # Position and energy init
+        # Position, energy and score init
         self.__state = "waiting..."
         self.__room = room
         self.__consumedEnergy = 0
+        self.__score = 0
 
         # Sensors init
         self.__dustSensor = DustSensor()
@@ -101,6 +102,24 @@ class Agent:
             action = None
             if(len(self.__intentions) > 0): action = self.__intentions.pop(0)
 
+    def evaluatePerformance(self):
+        self__state = "evaluating performance"
+        
+        non_clean_rooms = 0
+        size = self.__belief.getSize()
+        map = self.__belief.getMap()
+        
+        for i in range(size):
+            for j in range(size):
+                room = map[i][j]
+                roomValue = room.getValue()
+                if(self.__dustSensor.detect(roomValue) or self.__jewelSensor.detect(roomValue)): non_clean_rooms = non_clean_rooms +1
+                
+                
+        new_score = self.__vacuumEffector.getNbDustVacuumed()*5 - self.__vacuumEffector.getNbJewelVacuumed()*25 + self.__jewelGrabberEffector.getNbJewelGrabbed()*10 - non_clean_rooms - self.__consumedEnergy
+        self.__score = new_score
+        
+
     # ==============================================================================================
     # ACTIONS
     # ==============================================================================================
@@ -185,6 +204,9 @@ class Agent:
 
         # Consumed energy
         print("Consumed energy:", self.__consumedEnergy)
+        
+        # Score
+        print("Score:", self.__score)
 
         print("")
 

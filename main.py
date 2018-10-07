@@ -33,6 +33,8 @@ class agentThread(threading.Thread):
             # Performing intentions
             self.__robot.performActions(self.__env)
             
+            self.__robot.evaluatePerformance()
+            
 class envThread(threading.Thread):
     def __init__(self, env, agent):
         threading.Thread.__init__(self)
