@@ -9,11 +9,16 @@ class Agent:
     # CONSTRUCTOR
     # ==============================================================================================
     def __init__(self, size, room):
-        # Position, energy and score init
+        # Position and energy init
         self.__state = "waiting..."
         self.__room = room
         self.__consumedEnergy = 0
+        
+        # Score, start time and search_ratio init
         self.__score = 0
+        self.__start_time = time.time()
+        self.__search_ratio = 1
+        self.__search_ratio_direction = - 1
 
         # Sensors init
         self.__dustSensor = DustSensor()
@@ -80,13 +85,22 @@ class Agent:
     def chooseActions(self):
         self.__state = "choosing actions"
         # TODO: explore only if desire not reached ?
+        
+        # Random search (uncomment if needed)
         #self.__intentions = search.mockSearch()
+        
+        # Non-informed search (uncomment if needed)
         #self.__intentions = search.breadthFirstSearch(self.__room)
+        
+        # Informed search
         self.__intentions = search.aStarSearch(self.__room)
         
     def performActions(self, env):
         self.__state = "performing actions"
-
+        
+        stop = round( len(self.__intentions) * self.__search_ratio )
+        print("Action chain", len(self.__intentions), "Stop", stop)
+        
         action = None
         if(len(self.__intentions) > 0): action = self.__intentions.pop(0)
 
@@ -100,23 +114,39 @@ class Agent:
             elif(action == constants.DO_NOTHING): self.doNothing()
 
             action = None
+            if stop == 0 : break
+            else : stop = stop -1
+            
             if(len(self.__intentions) > 0): action = self.__intentions.pop(0)
+        
+        self.__intentions = []
 
     def evaluatePerformance(self):
         self__state = "evaluating performance"
         
+        # Computing the number of dirty rooms
         non_clean_rooms = 0
         size = self.__belief.getSize()
         map = self.__belief.getMap()
-        
         for i in range(size):
             for j in range(size):
                 room = map[i][j]
                 roomValue = room.getValue()
                 if(self.__dustSensor.detect(roomValue) or self.__jewelSensor.detect(roomValue)): non_clean_rooms = non_clean_rooms +1
                 
-                
-        new_score = self.__vacuumEffector.getNbDustVacuumed()*5 - self.__vacuumEffector.getNbJewelVacuumed()*25 + self.__jewelGrabberEffector.getNbJewelGrabbed()*10 - non_clean_rooms - self.__consumedEnergy
+        # Computing the new score        
+        new_score = (self.__vacuumEffector.getNbDustVacuumed()*5 - self.__vacuumEffector.getNbJewelVacuumed()*25 + self.__jewelGrabberEffector.getNbJewelGrabbed()*10 - non_clean_rooms - self.__consumedEnergy)/ (time.time() - self.__start_time)
+        
+        # If the score dropped since last time, we invert the direction of the search ratio modification
+        if new_score < self.__score : self.__search_ratio_direction = - self.__search_ratio_direction
+          
+        # Updating the search_ratio
+        #if self.__score > 0 : self.__search_ratio = min(1, self.__search_ratio + self.__search_ratio * self.__search_ratio_direction * (1 - abs(self.__score - new_score)/self.__score))
+        #print (self.__search_ratio)
+        #if self.__score != 0 : print (self.__search_ratio + self.__search_ratio * self.__search_ratio_direction * (1 - abs((self.__score - new_score)/self.__score)))
+        
+        
+        # Updating the score
         self.__score = new_score
         
 
@@ -207,6 +237,9 @@ class Agent:
         
         # Score
         print("Score:", self.__score)
+        
+        # Search ratio
+        print("Search ratio:", self.__search_ratio)
 
         print("")
 

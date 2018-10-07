@@ -19,7 +19,10 @@ class agentThread(threading.Thread):
 
     def run(self):
         print("Aspirobot T-0.1 running")
-
+        
+        evaluation_rate = 3                 # Performance will be evaluated every n + 1 cycle
+        evaluation_loop = evaluation_rate   # Variable to keep track of the performance evaluation loop
+        
         while(self.__robot.isAlive()):
             # Observing environment
             observation = self.__robot.observeEnvironmentWithMySensor(self.__env)
@@ -33,7 +36,11 @@ class agentThread(threading.Thread):
             # Performing intentions
             self.__robot.performActions(self.__env)
             
-            self.__robot.evaluatePerformance()
+            # Evaluating performance
+            if evaluation_loop == 0 : 
+                self.__robot.evaluatePerformance()
+                evaluation_loop = evaluation_rate
+            else : evaluation_loop = evaluation_loop - 1
             
 class envThread(threading.Thread):
     def __init__(self, env, agent):
