@@ -137,14 +137,13 @@ class Agent:
         # Computing the new score        
         new_score = (self.__vacuumEffector.getNbDustVacuumed()*5 - self.__vacuumEffector.getNbJewelVacuumed()*25 + self.__jewelGrabberEffector.getNbJewelGrabbed()*10 - non_clean_rooms - self.__consumedEnergy)/ (time.time() - self.__start_time)
         
-        # If the score dropped since last time, we invert the direction of the search ratio modification
-        if new_score < self.__score : self.__search_ratio_direction = - self.__search_ratio_direction
-          
-        # Updating the search_ratio
-        #if self.__score > 0 : self.__search_ratio = min(1, self.__search_ratio + self.__search_ratio * self.__search_ratio_direction * (1 - abs(self.__score - new_score)/self.__score))
-        #print (self.__search_ratio)
-        #if self.__score != 0 : print (self.__search_ratio + self.__search_ratio * self.__search_ratio_direction * (1 - abs((self.__score - new_score)/self.__score)))
+        if self.__score > 0 :
         
+            # If the score dropped since last time, we invert the direction of the search ratio modification
+            if new_score < self.__score : self.__search_ratio_direction = - self.__search_ratio_direction
+          
+            # Updating the search_ratio
+            self.__search_ratio = min(1, self.__search_ratio + (self.__search_ratio * self.__search_ratio_direction * 0.1) )
         
         # Updating the score
         self.__score = new_score

@@ -20,7 +20,7 @@ class agentThread(threading.Thread):
     def run(self):
         print("Aspirobot T-0.1 running")
         
-        evaluation_rate = 3                 # Performance will be evaluated every n + 1 cycle
+        evaluation_rate = 3                # Performance will be evaluated every n + 1 cycle
         evaluation_loop = evaluation_rate   # Variable to keep track of the performance evaluation loop
         
         while(self.__robot.isAlive()):

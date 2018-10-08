@@ -2,7 +2,9 @@ import random
 import constants
 
 class Environment:
-    
+    # ==============================================================================================
+    # CONSTRUCTOR
+    # ==============================================================================================
     def __init__(self, size):
         self.__size = size
         self.hmap = [[Room(j+1,i+1) for i in range(size)] for j in range(size)]
@@ -22,6 +24,9 @@ class Environment:
                     neighbors.append(self.hmap[i][j+1])   
                 self.hmap[i][j].setNeighbors(neighbors)
 
+    # ==============================================================================================
+    # GETTERS AND SETTERS
+    # ==============================================================================================
     def getSize(self):
         return self.__size
     
@@ -31,10 +36,20 @@ class Environment:
     def getMap(self):
         return self.hmap
 
+    # ==============================================================================================
+    # GENERATORS
+    # ==============================================================================================    
+    
+    '''
+    One time generation to start the environment with some dirt and jewels
+    '''
     def initElements(self):
         for i in range(15):
             self.gen()
-        
+            
+    '''
+    Generate either dust or jewel randomly
+    '''
     def gen(self):
         
         randomint = random.randint(1,10)
@@ -53,13 +68,9 @@ class Environment:
         x = random.randint(0,9)
         y = random.randint(0,9)
             
-        if self.hmap[x][y].value == constants.DUST_AND_JEWEL:
-            pass #ne rien faire
-                
-        elif self.hmap[x][y].value == constants.JEWEL:
-            self.hmap[x][y].value = constants.DUST_AND_JEWEL
-        else:
-            self.hmap[x][y].value = constants.DUST
+        if self.hmap[x][y].value == constants.DUST_AND_JEWEL: pass
+        elif self.hmap[x][y].value == constants.JEWEL: self.hmap[x][y].value = constants.DUST_AND_JEWEL
+        else: self.hmap[x][y].value = constants.DUST
         
         
     def genjewel(self):
@@ -67,15 +78,13 @@ class Environment:
         x = random.randint(0,9)
         y = random.randint(0,9)
         
-        if self.hmap[x][y].value == constants.DUST_AND_JEWEL:
-            pass #ne rien faire
+        if self.hmap[x][y].value == constants.DUST_AND_JEWEL: pass
+        elif self.hmap[x][y].value == constants.DUST: self.hmap[x][y].value = constants.DUST_AND_JEWEL
+        else: self.hmap[x][y].value = constants.JEWEL
             
-        elif self.hmap[x][y].value == constants.DUST:
-            self.hmap[x][y].value = constants.DUST_AND_JEWEL
-            
-        else:
-            self.hmap[x][y].value = constants.JEWEL
-
+    # ==============================================================================================
+    # DISPLAY
+    # ==============================================================================================
     def display(self, robotLine = -1, robotRow = -1):
         for i in range(self.__size):
             line = ""
@@ -94,12 +103,18 @@ class Environment:
         print("")
 
 class Room:
+    # ==============================================================================================
+    # CONSTRUCTOR
+    # ==============================================================================================
     def __init__(self, line, row):
         self.line = line
         self.row = row
         self.neighbors = []
         self.value = constants.NOTHING
-        
+     
+    # ==============================================================================================
+    # GETTERS AND SETTERS
+    # ============================================================================================== 
     def setNeighbors(self,neighbors):
         for i in range(len(neighbors)):
             self.neighbors.append(neighbors[i])
@@ -112,10 +127,20 @@ class Room:
 
     def setValue(self, value):
         self.value = value
-
+        
+    # ==============================================================================================
+    # ACTIONS
+    # ==============================================================================================
+    
+    '''
+    Void the room
+    '''
     def clean(self):
         self.value = constants.NOTHING
-
+    
+    '''
+    Remove only jewels in the room
+    '''
     def removeJewel(self):
         if(self.value == constants.JEWEL): self.value = constants.NOTHING
         elif(self.value == constants.DUST_AND_JEWEL): self.value = constants.DUST
