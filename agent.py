@@ -98,8 +98,8 @@ class Agent:
     def performActions(self, env):
         self.__state = "performing actions"
         
+        # If the search ratio is not one, that will cut the end of planned actions to re-observe and maybe make a better one since the environment evolved
         stop = round( len(self.__intentions) * self.__search_ratio )
-        print("Action chain", len(self.__intentions), "Stop", stop)
         
         action = None
         if(len(self.__intentions) > 0): action = self.__intentions.pop(0)
